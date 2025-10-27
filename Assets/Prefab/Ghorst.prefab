@@ -134,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 13.38, y: 18.9}
+  m_Size: {x: 11.5, y: 16.9}
   m_EdgeRadius: 0
 --- !u!114 &3629938849668182479
 MonoBehaviour:
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  fadeSpeed: 1
+  fadeSpeed: 1.2
   hitPlayer: 0
   hitAttack: 0
 --- !u!50 &5959801671806691906
