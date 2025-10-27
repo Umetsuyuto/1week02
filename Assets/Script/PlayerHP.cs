@@ -22,6 +22,9 @@ public class PlayerHP : MonoBehaviour
     private readonly Color32 blinkColor = new Color32(60, 60, 60, 255);
 
     private bool isDie = false;
+    [SerializeField] private AudioSource dio;
+    [SerializeField] private AudioClip DeadSE;
+    [SerializeField] private AudioClip DengerSE;
 
     void Start()
     {
@@ -31,7 +34,30 @@ public class PlayerHP : MonoBehaviour
         currentHP = maxHP;
         UpdateLifeUI();
     }
+    void PlayDeathSE()//死亡SE準備
+    {
+        if (DeadSE == null) return;
 
+        GameObject obj = new GameObject("EnemySE");
+        AudioSource src = obj.AddComponent<AudioSource>();
+        src.clip = DeadSE;
+        src.volume = 0.7f;
+        src.spatialBlend = 0f;  // ★ 2D化（距離減衰なし）
+        src.Play();
+        Destroy(obj, DeadSE.length);
+    }
+    void PlayDengerSE()//危険SE準備
+    {
+        if (DeadSE == null) return;
+
+        GameObject obj = new GameObject("EnemySE");
+        AudioSource src = obj.AddComponent<AudioSource>();
+        src.clip = DengerSE;
+        src.volume = 0.7f;
+        src.spatialBlend = 0f;  // ★ 2D化（距離減衰なし）
+        src.Play();
+        Destroy(obj, DengerSE.length);
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (isInvincible) return;
@@ -51,6 +77,17 @@ public class PlayerHP : MonoBehaviour
         int prevHP = currentHP;
         currentHP -= damage;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        if (!isDie)
+        {
+            if (currentHP > 1)
+            {
+                dio.Play();
+            }
+            if (currentHP == 1)
+            {
+                PlayDengerSE();
+            }
+        }
 
         if (currentHP <= 0)
         {
@@ -59,11 +96,12 @@ public class PlayerHP : MonoBehaviour
             SetImageDark(damagedIndex);
             UpdateLifeUI();
 
-                // Die アニメーション再生してシーン遷移
-                playerAnimator.SetTrigger("die");
-                isDie = true;
-                StartCoroutine(WaitForDieAnimation());
-                return;
+            PlayDeathSE();
+            // Die アニメーション再生してシーン遷移
+            playerAnimator.SetTrigger("die");
+            isDie = true;
+            StartCoroutine(WaitForDieAnimation());
+            return;
         }
 
         // HP>0 の場合：今回暗くなる1つを決める

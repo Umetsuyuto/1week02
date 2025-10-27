@@ -152,6 +152,7 @@ MonoBehaviour:
   fadeSpeed: 1.2
   hitPlayer: 0
   hitAttack: 0
+  enemyDeadSE: {fileID: 8300000, guid: 8f7764b4eb0d0834ca45d922dfbc0bc1, type: 3}
 --- !u!50 &5959801671806691906
 Rigidbody2D:
   serializedVersion: 5
