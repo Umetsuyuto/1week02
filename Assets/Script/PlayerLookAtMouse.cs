@@ -3,9 +3,14 @@ using UnityEngine;
 public class PlayerLookAtMouse : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed = 5f; // ‰ñ“]‚Ì‘¬‚³
+    [SerializeField] private PlayerHP p;
 
     void Update()
     {
+        if (p != null && p.IsDie())
+        {
+            return;
+        }
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0; // Z‚Í–³Ž‹
 

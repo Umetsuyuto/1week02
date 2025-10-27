@@ -5,6 +5,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform shotZone;
     [SerializeField] private float bulletSpeed = 5f;
+    [SerializeField] private PlayerHP p;
 
     private Animator animator;
 
@@ -15,6 +16,10 @@ public class PlayerShoot : MonoBehaviour
 
     void Update()
     {
+        if (p!=null&&p.IsDie())
+        {
+            return;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
