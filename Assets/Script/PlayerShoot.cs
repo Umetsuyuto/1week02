@@ -20,7 +20,7 @@ public class PlayerShoot : MonoBehaviour
         {
             return;
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
         {
             AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
             if (!state.IsName("Attack"))

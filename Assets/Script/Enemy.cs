@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     private bool isFading = false;
     public bool hitPlayer = false;
     public bool hitAttack = false;
+    [SerializeField] private AudioClip enemyDeadSE;
 
     void Start()
     {
@@ -19,11 +20,24 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
+    void PlayDeathSE()//死亡SE準備
+    {
+        if (enemyDeadSE == null) return;
+
+        GameObject obj = new GameObject("EnemySE");
+        AudioSource src = obj.AddComponent<AudioSource>();
+        src.clip = enemyDeadSE;
+        src.volume = 0.6f;
+        src.spatialBlend = 0f;  // ★ 2D化（距離減衰なし）
+        src.Play();
+        Destroy(obj, enemyDeadSE.length);
+    }
     void Update()
     {
         // 透明化中でなければプレイヤーに向かって移動
         if (!isFading && player != null)
         {
+
             Vector3 dir = (player.position - transform.position).normalized;
             transform.position += dir * moveSpeed * Time.deltaTime;
         }
@@ -52,6 +66,11 @@ public class Enemy : MonoBehaviour
         else if (other.CompareTag("PlayerAttack"))
         {
             hitAttack = true;
+            if (ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddScore(50);
+            }
+            PlayDeathSE();
             StartFade();
         }
     }
