@@ -280,7 +280,7 @@ MonoBehaviour:
   - {fileID: 1733968058}
   - {fileID: 859014341}
   - {fileID: 1976609595}
-  spawnInterval: 0.7
+  spawnInterval: 0.6
 --- !u!4 &137122197
 Transform:
   m_ObjectHideFlags: 0
